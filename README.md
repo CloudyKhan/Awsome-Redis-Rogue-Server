@@ -152,12 +152,6 @@ $ vim ./RedisModules/src/module.c
 $ cd RedisModules
 $ make
 ```
-
----
-
-### Reference
-[RedisModules-ExecuteCommand Repository](https://github.com/RicterZ/RedisModules-ExecuteCommand)
-
 ---
 
 ### Disclaimer
